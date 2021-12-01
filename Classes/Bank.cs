@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace heist
+namespace Heist
 {
     public class Bank
 
