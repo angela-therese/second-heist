@@ -98,42 +98,63 @@ namespace Heist
                     });
             }
 
-            Console.WriteLine("How many times do you want to try the heist?");
-            string trialRunsString = Console.ReadLine();
-            int trialRuns = Convert.ToInt32(trialRunsString);
-            int trials = 0;
-            int heistSuccess = 0;
-            int heistFail = 0;
+     
+            // int heistSuccess = 0;
+            // int heistFail = 0;
+            
+                Bank newBank = new Bank()
+                   {    AlarmScore = new Random().Next(0, 101),
+                        VaultScore = new Random().Next(0, 101),
+                        SecurityGuardScore = new Random().Next(0, 101),
+                        CashOnHand = new Random().Next(50000, 1000001)
+                   };
 
-            while (trials < trialRuns)
-            {
-                Console.WriteLine("What is the bank's difficulty level from 1-100?");
-                string BankLevelString = Console.ReadLine();
-                int BankLevel = Convert.ToInt32(BankLevelString);
-                int LuckValue = new Random().Next(-10, 11);
-                int NewBankLevel = (BankLevel + LuckValue);
+                Dictionary<string, int> bankScores = new Dictionary<string, int>()
+                {
+                    {"Alarm", newBank.AlarmScore},
+                    {"Vault", newBank.VaultScore},
+                    {"Security", newBank.SecurityGuardScore}
+                };
+
+                var result = bankScores.OrderByDescending(i => i.Value);
+                var mostSecureSystem = result.ElementAt(0).Key;
+                var leastSecureSystem = result.ElementAt(2).Key;
+
+                Console.WriteLine($"The most secure system is the {mostSecureSystem}");
+                Console.WriteLine($"The least secure system is the {leastSecureSystem}");
+                
                 int TeamSize = rolodex.Count();
-                Console
-                    .WriteLine($"Factoring in luck, your bank's difficulty level is now { NewBankLevel}.");
+               
                 Console.WriteLine($"Total Team Skill Score: {teamSkill}");
-                Console.WriteLine($"Bank difficulty level: {NewBankLevel}");
-
-                if (BankLevel < teamSkill)
-                {
-                    Console.WriteLine("Success! You win!");
-                    heistSuccess += 1;
-                }
-                else
-                {
-                    Console.WriteLine("Uh-oh! You lose!");
-                    heistFail += 1;
-                }
-
-                trials += 1;
-            }
+              
            
-            Console.WriteLine($"You won the heist {heistSuccess} times.");
-            Console.WriteLine($"You lost the heist {heistFail} time(s).");
+            // Console.WriteLine($"You won the heist {heistSuccess} times.");
+            // Console.WriteLine($"You lost the heist {heistFail} time(s).");
         }
     }
 }
+
+
+
+
+// Console.WriteLine("What is the bank's difficulty level from 1-100?");
+                // string BankLevelString = Console.ReadLine();
+                // int BankLevel = Convert.ToInt32(BankLevelString);
+                // int LuckValue = new Random().Next(-10, 11);
+                // int NewBankLevel = (BankLevel + LuckValue);
+               // Console.WriteLine($"Factoring in luck, your bank's difficulty level is now { NewBankLevel}.");
+                 // Console.WriteLine($"Bank difficulty level: {NewBankLevel}");
+
+                // if (BankLevel < teamSkill)
+                // {
+                //     Console.WriteLine("Success! You win!");
+                //     heistSuccess += 1;
+                // }
+                // else
+                // {
+                //     Console.WriteLine("Uh-oh! You lose!");
+                //     heistFail += 1;
+                // }
+                       // Console.WriteLine("How many times do you want to try the heist?");
+            // string trialRunsString = Console.ReadLine();
+            // int trialRuns = Convert.ToInt32(trialRunsString);
