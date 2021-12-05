@@ -12,17 +12,23 @@ namespace Heist
 
         public int PercentageCut { get; set; }
 
-        void PerformSKill(Bank AlarmScore)
+        public string Job { get; set; }
+
+        public void PerformSkill(Bank bank)
         {
            
            
-             int AlarmScoreInt = Convert.ToInt32(AlarmScore);
-             AlarmScoreInt = AlarmScoreInt - SkillLevel;
+             int SecurityScoreInt = Convert.ToInt32(bank.SecurityGuardScore);
+             SecurityScoreInt = SecurityScoreInt - SkillLevel;
 
              Console.WriteLine($"{Name} is hacking alarm system. Decreased security by {SkillLevel} points.");
 
-             if(AlarmScoreInt <= 0){
-                 Console.WriteLine($"{Name} has disabled the alarm system!");
+             if(SecurityScoreInt <= 0){
+                 Console.WriteLine($"{Name} has defeated security! You win!");
+             }
+
+             else {
+                 Console.WriteLine($"{Name} was no match for security. You lose!");
              }
 
            

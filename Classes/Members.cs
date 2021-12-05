@@ -9,6 +9,7 @@ namespace Heist
         public string Name {get; set;}
         public int SkillLevel {get; set;}
         public double Courage {get; set;}
+        public string Job {get; set;}
 
     }
 

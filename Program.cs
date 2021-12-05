@@ -12,15 +12,15 @@ namespace Heist
                 new List<IRobber>()
                 {
                     new Hacker()
-                    { Name = "Luca", SkillLevel = 42, PercentageCut = 20 },
+                    { Name = "Luca", SkillLevel = 42, PercentageCut = 20, Job = "Hacker"},
                     new Hacker()
-                    { Name = "Hazel", SkillLevel = 32, PercentageCut = 20 },
+                    { Name = "Hazel", SkillLevel = 32, PercentageCut = 20, Job = "Hacker"},
                     new Muscle()
-                    { Name = "Izzi", SkillLevel = 32, PercentageCut = 20 },
+                    { Name = "Izzi", SkillLevel = 32, PercentageCut = 20, Job = "Muscle" },
                     new LockSpecialist()
-                    { Name = "Hazel", SkillLevel = 32, PercentageCut = 20 },
+                    { Name = "Hazel", SkillLevel = 32, Job = "Lock Specialist"},
                     new Muscle()
-                    { Name = "Celia", SkillLevel = 32, PercentageCut = 30 }
+                    { Name = "Celia", SkillLevel = 32, PercentageCut = 30, Job = "Muscle" }
                 };
 
             int rolodexCount = rolodex.Count();
@@ -53,18 +53,22 @@ namespace Heist
                 Console.WriteLine("Enter your skill level (1-100)");
                 string skillLevel = Console.ReadLine();
                 int intSkillLevel = Convert.ToInt32(skillLevel);
+              
 
                 Console
                     .WriteLine("What's your percentage cut of the heist? Enter a number from 1-100.");
                 string cut = Console.ReadLine();
                 int cutInt = Convert.ToInt32(cut);
+                
 
                 if (specialty == "1")
                 {
+                   
                     Hacker member = new Hacker();
                     member.Name = memberName;
                     member.SkillLevel = intSkillLevel;
                     member.PercentageCut = cutInt;
+                    member.Job = "Hacker";
                     rolodex.Add (member);
                 }
                 else if (specialty == "2")
@@ -72,15 +76,18 @@ namespace Heist
                     Muscle member = new Muscle();
                     member.Name = memberName;
                     member.SkillLevel = intSkillLevel;
+                    member.Job = "Muscle";
                     member.PercentageCut = cutInt;
                     rolodex.Add (member);
                 }
                 else if (specialty == "3")
                 {
+                   
                     LockSpecialist member = new LockSpecialist();
                     member.Name = memberName;
                     member.SkillLevel = intSkillLevel;
                     member.PercentageCut = cutInt;
+                    member.Job = "Lock Specialist";
                     rolodex.Add (member);
                 }
 
@@ -94,13 +101,10 @@ namespace Heist
                     .Add(new Member {
                         Name = ($"{memberName}"),
                         SkillLevel = intSkillLevel,
-                        Courage = decCourageFactor
+                        Courage = decCourageFactor,
+                       
                     });
             }
-
-     
-            // int heistSuccess = 0;
-            // int heistFail = 0;
             
                 Bank newBank = new Bank()
                    {    AlarmScore = new Random().Next(0, 101),
@@ -126,35 +130,87 @@ namespace Heist
                 int TeamSize = rolodex.Count();
                
                 Console.WriteLine($"Total Team Skill Score: {teamSkill}");
-              
-           
-            // Console.WriteLine($"You won the heist {heistSuccess} times.");
-            // Console.WriteLine($"You lost the heist {heistFail} time(s).");
+
+                foreach(IRobber r in rolodex){
+                    int memberNumber = (rolodex.IndexOf(r) +1);
+                   Console.WriteLine($"{memberNumber}");
+                    Console.WriteLine($"Member Name: {r.Name}");
+                    Console.WriteLine($"Specialty: {r.Job}");
+                     Console.WriteLine($"Skill Level: {r.SkillLevel}");
+                     Console.WriteLine($"Percentage Cut: {r.PercentageCut}");
+                };
+
+                List<IRobber> crew = new List<IRobber>();
+                int intCrewMemberNumber; 
+                int i;
+               
+
+                 while (true)
+            {
+                //START TEAM SELECTION
+                Console.WriteLine("Choose a new crew member by entering their number or push 'enter' if finished.");
+                string crewMemberNumber = Console.ReadLine();
+                int rolodexSize = rolodex.Count()+1;
+
+                if(crewMemberNumber == "")
+                {
+                    break;
+                }
+                
+                else {
+                   intCrewMemberNumber = Convert.ToInt32(crewMemberNumber);
+                    if (intCrewMemberNumber > rolodexSize)
+                {
+                   Console.WriteLine("Try Again. Enter a valid number.");   
+                   crewMemberNumber = Console.ReadLine();
+                }
+
+                else {
+                    i = (intCrewMemberNumber - 1);
+                    crew.Add(rolodex[i]);
+                    rolodex.RemoveAt(i);
+                }
+
+                }
+                //END TEAM SELECTION
+
+                Console.WriteLine("Your current team: ");
+                foreach(IRobber c in crew){
+                    Console.WriteLine($"{c.Name}");
+                    
+                };
+                
+              foreach(IRobber r in rolodex){
+                   int memberNumber = (rolodex.IndexOf(r) +1);
+                   Console.WriteLine($"{memberNumber}");
+                    Console.WriteLine($"Member Name: {r.Name}");
+                    Console.WriteLine($"Specialty: {r.Job}");
+                     Console.WriteLine($"Skill Level: {r.SkillLevel}");
+                     Console.WriteLine($"Percentage Cut: {r.PercentageCut}");
+                };
+
+            }
+            
+                Console.WriteLine("Your final team: ");
+                foreach(IRobber c in crew){
+                    Console.WriteLine($"{c.Name}");   
+                };
+
+               
+                foreach(IRobber c in crew) 
+                {
+                    c.PerformSkill(newBank);
+                    
+                };
+
+
+
+                }
+                            
+
         }
     }
-}
 
 
 
 
-// Console.WriteLine("What is the bank's difficulty level from 1-100?");
-                // string BankLevelString = Console.ReadLine();
-                // int BankLevel = Convert.ToInt32(BankLevelString);
-                // int LuckValue = new Random().Next(-10, 11);
-                // int NewBankLevel = (BankLevel + LuckValue);
-               // Console.WriteLine($"Factoring in luck, your bank's difficulty level is now { NewBankLevel}.");
-                 // Console.WriteLine($"Bank difficulty level: {NewBankLevel}");
-
-                // if (BankLevel < teamSkill)
-                // {
-                //     Console.WriteLine("Success! You win!");
-                //     heistSuccess += 1;
-                // }
-                // else
-                // {
-                //     Console.WriteLine("Uh-oh! You lose!");
-                //     heistFail += 1;
-                // }
-                       // Console.WriteLine("How many times do you want to try the heist?");
-            // string trialRunsString = Console.ReadLine();
-            // int trialRuns = Convert.ToInt32(trialRunsString);
