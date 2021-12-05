@@ -16,6 +16,7 @@ namespace Heist
         {
             if(CashOnHand + AlarmScore + VaultScore + SecurityGuardScore <= 0){
                 return false;
+                
             }
             else{
                 return true;

@@ -17,6 +17,7 @@ namespace Heist
         public void PerformSkill(Bank bank)
         {
            
+
            
              int SecurityScoreInt = Convert.ToInt32(bank.SecurityGuardScore);
              SecurityScoreInt = SecurityScoreInt - SkillLevel;
@@ -25,7 +26,12 @@ namespace Heist
 
              if(SecurityScoreInt <= 0){
                  Console.WriteLine($"{Name} has defeated security! You win!");
-             }
+                bool v = bank.IsSecure()== false;
+
+
+
+
+            }
 
              else {
                  Console.WriteLine($"{Name} was no match for security. You lose!");

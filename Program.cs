@@ -12,16 +12,17 @@ namespace Heist
                 new List<IRobber>()
                 {
                     new Hacker()
-                    { Name = "Luca", SkillLevel = 42, PercentageCut = 20, Job = "Hacker"},
+                    { Name = "Luca", SkillLevel = 82, PercentageCut = 20, Job = "Hacker"},
                     new Hacker()
                     { Name = "Hazel", SkillLevel = 32, PercentageCut = 20, Job = "Hacker"},
                     new Muscle()
-                    { Name = "Izzi", SkillLevel = 32, PercentageCut = 20, Job = "Muscle" },
+                    { Name = "Izzi", SkillLevel = 32, PercentageCut = 30, Job = "Muscle" },
                     new LockSpecialist()
-                    { Name = "Hazel", SkillLevel = 32, Job = "Lock Specialist"},
+                    { Name = "Hazel", SkillLevel = 86, PercentageCut = 35, Job = "Lock Specialist"},
                     new Muscle()
-                    { Name = "Celia", SkillLevel = 32, PercentageCut = 30, Job = "Muscle" }
+                    { Name = "Celia", SkillLevel = 32, PercentageCut = 60, Job = "Muscle" }
                 };
+
 
             int rolodexCount = rolodex.Count();
             Console
@@ -92,7 +93,7 @@ namespace Heist
                 }
 
 
-                teamSkill = (teamSkill + intSkillLevel);
+               
                 Console.WriteLine("Enter your courage factor (0.0-2.0)");
                 string courageFactor = Console.ReadLine();
                 double decCourageFactor = Convert.ToDouble(courageFactor);
@@ -110,7 +111,7 @@ namespace Heist
                    {    AlarmScore = new Random().Next(0, 101),
                         VaultScore = new Random().Next(0, 101),
                         SecurityGuardScore = new Random().Next(0, 101),
-                        CashOnHand = new Random().Next(50000, 1000001)
+                        CashOnHand = new Random().Next(50000, 1000001)              
                    };
 
                 Dictionary<string, int> bankScores = new Dictionary<string, int>()
@@ -143,14 +144,16 @@ namespace Heist
                 List<IRobber> crew = new List<IRobber>();
                 int intCrewMemberNumber; 
                 int i;
+                //how to eliminate operative choices based on percentage capacity
+               
                
 
                  while (true)
             {
                 //START TEAM SELECTION
-                Console.WriteLine("Choose a new crew member by entering their number or push 'enter' if finished.");
+                Console.WriteLine("Choose your crew! Enter the number of the person you wish to add. Push enter when you are finished. Remember, your team's percentage of the cut cannot total more than 100, so you may run out of choices!");
                 string crewMemberNumber = Console.ReadLine();
-                int rolodexSize = rolodex.Count()+1;
+                int rolodexSize = rolodex.Count();
 
                 if(crewMemberNumber == "")
                 {
@@ -158,7 +161,8 @@ namespace Heist
                 }
                 
                 else {
-                   intCrewMemberNumber = Convert.ToInt32(crewMemberNumber);
+            
+                    intCrewMemberNumber = Convert.ToInt32(crewMemberNumber);
                     if (intCrewMemberNumber > rolodexSize)
                 {
                    Console.WriteLine("Try Again. Enter a valid number.");   
@@ -172,22 +176,34 @@ namespace Heist
                 }
 
                 }
-                //END TEAM SELECTION
 
                 Console.WriteLine("Your current team: ");
+                 int percentTotal = 0;
                 foreach(IRobber c in crew){
-                    Console.WriteLine($"{c.Name}");
+                    percentTotal += c.PercentageCut;
+                    int percentLeft = 100-percentTotal;
+                    Console.WriteLine($"{c.Name} wants {c.PercentageCut} of the cut. You have {percentLeft} percent left.");
+                    
                     
                 };
                 
-              foreach(IRobber r in rolodex){
+                
+
+                 foreach(IRobber r in rolodex){
+
+                  if(r.PercentageCut + percentTotal <= 100)
+                  {
                    int memberNumber = (rolodex.IndexOf(r) +1);
                    Console.WriteLine($"{memberNumber}");
                     Console.WriteLine($"Member Name: {r.Name}");
                     Console.WriteLine($"Specialty: {r.Job}");
                      Console.WriteLine($"Skill Level: {r.SkillLevel}");
                      Console.WriteLine($"Percentage Cut: {r.PercentageCut}");
+                     }
+                    
                 };
+
+                 //END TEAM SELECTION
 
             }
             
@@ -200,9 +216,26 @@ namespace Heist
                 foreach(IRobber c in crew) 
                 {
                     c.PerformSkill(newBank);
+                   
+                    
                     
                 };
+                    
+                
+                  //HOW DO YOU CHANGE THE BOOLEAN TO FALSE? 
+                  if(newBank.IsSecure() == true) {
 
+                      
+                    foreach(IRobber c in crew) 
+                {
+                            double cutToDecimal = (c.PercentageCut / 100.00);
+                            double payout = cutToDecimal * newBank.CashOnHand;
+                             Console.WriteLine($"{c.Name}: {payout}");
+                }
+                         }
+               
+
+               
 
 
                 }
@@ -210,6 +243,9 @@ namespace Heist
 
         }
     }
+
+    
+
 
 
 

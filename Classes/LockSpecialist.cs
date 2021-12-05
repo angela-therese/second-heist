@@ -25,6 +25,7 @@ namespace Heist
 
              if(bankScore <= 0){
                  Console.WriteLine($"{Name} has unlocked the vault! You win!");
+                 bool v = bank.IsSecure()== false;
              }
 
              else {
